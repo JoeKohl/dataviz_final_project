@@ -1,0 +1,163 @@
+---
+title: "KohlMiniProj3"
+output: html_document
+date: "2026-06-24"
+---
+
+```{r}
+library(tidyverse)
+library(lubridate)
+library(ggridges)
+library(plotly)
+library(tidytext)
+
+weather_tpa <- read_csv("https://raw.githubusercontent.com/aalhamadani/datasets/master/tpa_weather_2022.csv")
+```
+## PART 1
+
+### a.
+```{r}
+weather_tpa %>%
+  mutate(month = factor(month, levels = 1:12, labels = month.name)) %>%
+  ggplot(aes(x = max_temp, fill = month)) +
+  geom_histogram(binwidth = 3, color = "white", show.legend = FALSE) +
+  facet_wrap(~month, nrow = 3) +
+  scale_fill_viridis_d() +
+  scale_x_continuous(breaks = c(60,70,80,90))+
+  labs(title = "Tampa International Airport (TPA) Max Temperatures (2022)",
+       x = "Maximum Temperature (°F)", y = "Day Count") +
+  theme_bw()
+```
+
+This chart shows that winter months (Jan, Feb, Dec) have highly dispersed maximum temperatures ranging from under 50°F to over 80°F. Summer months (Jun–Aug) are tightly clustered around 90°F.
+
+### b.
+```{r}
+weather_tpa %>%
+  ggplot(aes(x = max_temp)) +
+  geom_density(kernel = "gaussian", bw = 0.5, fill = "gray50", linewidth = 1) +
+  labs(title = "Tampa International Airport (TPA) Max Temperature Density",
+       x = "Maximum Temperature (°F)", 
+       y = "Density") +
+  theme_minimal()
+```
+
+This chart displays a heavily skewed distribution for the year. The graph has major peaks between 80°F and 95°F, proving warm days make up the vast majority of the year.
+
+### c.
+```{r}
+weather_tpa %>%
+  mutate(month = factor(month, levels = 1:12, labels = month.name)) %>%
+  ggplot(aes(x = max_temp, fill = month)) +
+  geom_density(alpha = 0.5, show.legend = FALSE) +
+  facet_wrap(~month, nrow = 3) +
+  scale_y_continuous(breaks = seq(0, 0.35, by = 0.05)) +
+  scale_x_continuous(breaks = c(60,70,80,90)) +
+  labs(title = "Density Plots for Each Month in 2022",
+       x = "Maximum Temperature (°F)",
+       y = "Density") +
+  theme_bw()
+```
+
+This one highlights seasonal variance. May through September show sharp, narrow peaks around 90°F–95°F, while November through February feature wide, shallow curves with much lower peak density.
+
+### d.
+```{r}
+weather_tpa %>%
+  mutate(month = factor(month, levels = 12:1, labels = month.name)) %>% 
+  ggplot(aes(x = max_temp, y = month, fill = stat(x))) +
+  geom_density_ridges_gradient(quantile_lines = TRUE, quantiles = 4, alpha = 0.8) +
+  scale_fill_viridis_c(option = "plasma", name = "Temp (°F)") +
+  labs(title = "Tampa Max Temperatures Ridgeline Map (2022)",
+       x = "Maximum Temperature (°F)",
+       y = "Month") +
+  theme_ridges()
+```
+
+Here we see the seasonal shift. Medians shift smoothly upward into a hot, narrow band from May to September, then flatten and widen significantly during the less predictable winter months.
+
+### e.
+```{r}
+weather_tpa %>%
+  filter(precipitation >= 0) %>%
+  mutate(month = factor(month, levels = 1:12, labels = month.abb)) %>%
+  group_by(month) %>%
+  summarise(total_rain = sum(precipitation)) %>%
+  ggplot(aes(x = month, y = total_rain, fill = total_rain)) +
+  geom_col() +
+  scale_fill_viridis_b(option = "mako") +
+  labs(
+    title = "Total Monthly Precipitation at TPA (2022)",
+    x = "Month", 
+    y = "Precipitation (Inches)",
+    fill = "Inches") +
+  theme_minimal()
+```
+
+This graph shows a distinct seasonal rain pattern. Rainfall peaks in the summer, with July and September both exceeding 11 inches, while winter and early spring months (except for an April spike) stay mostly dry, dropping below 3 inches.
+
+## Conclusion
+
+The data reveals a climate profile for TPA in 2022. The winter and surrounding months act as a "dry season" with larger temperature swings (45°F to 85°F) and low rainfall. Conversely, the summer acts as a wet season, locking into a stable, hot temperature band (85°F to 95°F) from June through September that fuels the year's highest monthly precipitation totals.
+
+## PART 2
+
+### Option A
+```{r}
+
+
+url <- ("https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/data/BB_top100_2015.csv")
+bb100 <- read_csv(url)
+
+
+wordchart <- bb100 %>%
+  unnest_tokens(word, Lyrics) %>%
+  anti_join(stop_words, by = "word") %>%
+  count(word, sort = TRUE) %>%
+  slice_max(n, n = 25) %>% 
+  mutate(word = reorder(word, n)) %>%
+  
+  # Plot
+  ggplot(aes(x = n, y = word)) +
+  geom_col() +
+  labs(title = "Top 25 Most Common Words in Billboard Hits",
+       x = "Word Count") +
+  theme_minimal()
+
+ggplotly(wordchart)
+```
+
+
+This interactive chart shows that casual language, contractions ("im", "dont", "wanna"), and themes of relationships/emotion ("love", "baby") dominate Billboard hit song titles or lyrics. The word "im" is an extreme outlier, appearing far more frequently than any other word on the list.
+
+```{r}
+song_lengths <- bb100 %>%
+  unnest_tokens(word, Lyrics) %>%  
+  group_by(Rank, Song, Artist) %>% 
+  summarise(total_words = n(), .groups = "drop")
+
+length_plot <- ggplot(song_lengths, aes(x = Rank, y = total_words)) + 
+  geom_point(aes(color = total_words, 
+                 text = paste("Song:", Song, 
+                              "<br>Artist:", Artist, 
+                              "<br>Rank:", Rank, 
+                              "<br>Total Words:", total_words)), 
+             size = 3, alpha = 0.7) +
+  geom_smooth(method = "lm", color = "black", se = FALSE, linetype = "dashed") +
+  scale_color_viridis_c(option = "plasma", guide = "none") +
+  labs(
+    title = "Billboard Hit Rank vs. Song Lyric Length",
+    x = "Billboard Rank (1 is #1 Hit)",
+    y = "Total Word Count"
+  ) +
+  theme_minimal()
+
+ggplotly(length_plot, tooltip = "text")
+```
+
+
+Here we have a scatter plot mapping a song's chart rank against its total lyric word count. The dashed trend line shows a very slight negative slope, suggesting that higher-ranking hits (closer to rank 1) lean toward marginally higher word counts, though the massive vertical spread and prominent outliers across all ranks indicate that lyric length is not a strong predictor of chart performance.
+
+## Conclusion
+
+The data indicates that while successful Billboard hits rely heavily on highly repetitive, emotionally relatable, and informal vocabulary, their absolute lyric length varies wildly. A hit song's commercial rank is largely independent of whether it features a sparse or dense lyric count, showing that a songs content matters much more than the length.
