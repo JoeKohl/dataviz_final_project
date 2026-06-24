@@ -13,7 +13,7 @@ In the `project_01/` folder you can find... _[add short description of your revi
 **Sample data visualization:** 
 
 _[include your favorite visualization from this project here]_
-<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/sleepGPA.png" width="70%" height="70%">
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/sleepGPA" width="70%" height="70%">
 
 
 ## Project 02
