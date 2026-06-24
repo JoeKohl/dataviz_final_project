@@ -1,0 +1,148 @@
+---
+title: "Kohl-Analysis-MiniProj2"
+output: html_document
+date: "2026-06-18"
+---
+
+```{r}
+library(tidyverse)
+library(plotly)
+```
+
+```{r}
+nbafinals <- read.csv("../data/NBAchampionsdata.csv")
+summary(nbafinals)
+```
+```{r}
+#make data more readable
+nbafinalsnew <- nbafinals %>%
+  mutate(
+    Series = paste(Year, Team, sep = " "),
+    Result = ifelse(Win == 1, "Win", "Loss"),
+    Location = ifelse(Home == 1, "Home", "Away")
+    )
+```
+
+```{r}
+seriesgames <- ggplot(
+    nbafinalsnew, aes(x = Game, y = PTS, group = Series, color = Team,
+    text = paste0("<b>", Series, "</b><br>",
+    "Game: ", Game, "<br>",
+    "Points: ", PTS, "<br>",
+    "Result: ", Result, " (", Location, ")<br>"))) +
+  geom_line(alpha = 0.8, linewidth = 0.2) +
+  geom_point(aes(shape = Result), size = 2) +
+  scale_x_continuous(breaks = 1:7) +
+  scale_shape_manual(values = c("Win" = 16, "Loss" = 4)) #dots for wins x for loss + 
+  labs(
+    title = "NBA Finals Games (1980–2018)",
+    x = "Game Number",
+    y = "Points Scored",
+    color = "Champions",
+    shape = "Game Outcome"
+  ) +
+  theme_minimal() 
+
+interactive_plot <- ggplotly(seriesgames)
+interactive_plot
+```
+
+```{r}
+library(usmap)
+library(ggrepel)
+
+championships_per_team <- nbafinals %>%
+  group_by(Year) %>%
+  summarise(Team = first(Team)) %>%
+  group_by(Team) %>%
+  summarise(Championships = n())
+
+team_coordinates <- data.frame(
+  Team = c("Lakers", "Bulls", "Spurs", "Celtics", "Pistons", "Heat", "Warriors", "Rockets", "Sixers", "Mavericks", "Cavaliers"),
+  City = c("Los Angeles, CA", "Chicago, IL", "San Antonio, TX", "Boston, MA", "Detroit, MI", "Miami, FL", "San Francisco, CA", "Houston, TX", "Philadelphia, PA", "Dallas, TX", "Cleveland, OH"),
+  lon  = c(-118.2437, -87.6298, -98.4936, -71.0589, -83.0458, -80.1918, -122.4194, -95.3698, -75.1652, -96.7970, -81.6944),
+  lat  = c(34.0522, 41.8781, 29.4241, 42.3601, 42.3314, 25.7617, 37.7749, 29.7604, 39.9526, 32.7767, 41.4993)
+)
+
+map_data <- championships_per_team %>%
+  left_join(team_coordinates, by = "Team")
+map_data_transformed <- usmap_transform(map_data, input_names = c("lon", "lat"))
+
+map_plot <- plot_usmap("states") +
+  geom_sf(
+    data = map_data_transformed,
+    aes(size = Championships, color = Team)) +
+  scale_size_continuous(range = c(2,14)) +
+  geom_label_repel(
+    data=map_data_transformed,
+    stat="sf_coordinates",
+    aes(label = paste0(Team,"\n Wins:",Championships),geometry=geometry),
+    size=2.5,
+    fontface="bold",
+    fill="lightgrey") +
+  labs(
+    title = "NBA Championships by Team Location (1980-2018)",
+    size = "Championships Won",
+    color = "Team"
+  ) +
+  theme(
+    legend.position = "right",
+    legend.key.size = unit(0.3,"cm")
+  )
+map_plot
+```
+
+```{r}
+library(broom)
+model <- lm(PTS ~ AST + ORB +TRB + TOV + STL, data = nbafinalsnew)
+model_result <- tidy(model, conf.int = TRUE) %>%
+  filter(term != "(Intercept)") %>% 
+  mutate(
+    term = recode(term,
+                  AST = "Assists",
+                  ORB = "Offensive Rebounds",
+                  TRB = "Total Rebounds",
+                  TOV = "Turnovers",
+                  STL = "Steals"))
+
+plot_model <- ggplot(model_result, aes(x = estimate, y = reorder(term, estimate))) +
+  geom_vline(xintercept = 0, linetype = "dashed") +
+  geom_errorbarh(
+    aes(xmin = conf.low, xmax = conf.high), 
+    height = 0.2, linewidth = 1.2) +
+  geom_point(size = 4) +
+  geom_text(
+    aes(label = sprintf("%.2f points\n[%.2f to %.2f]", estimate, conf.low, conf.high)), 
+    vjust = -0.5) +
+  labs(
+    title = "Predictors of Points Scored",
+    subtitle = "Coefficients with 95% Confidence Intervals",
+    x = "Effect on Points Scored",
+    y = "Variable"
+  ) +
+  coord_cartesian(clip = "off")+
+  theme_minimal()
+
+print(plot_model)
+```
+
+```{r}
+turnoversteal <- ggplot(nbafinalsnew, aes(x = TOV, y = STL, color = Result)) +
+  geom_jitter(aes(shape = Location), size = 2.5, alpha = 0.8) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_color_manual(values = c("Win" = "#2acc31", "Loss" = "red")) +
+  labs(
+    title = "Turnovers vs Steals on Game Outcome",
+    x = "Turnovers",
+    y = "Steals",
+    color = "Game Outcome",
+    shape = "Location"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(face = "bold", size = 14),
+    legend.position = "right"
+  )
+
+print(turnoversteal)
+```
