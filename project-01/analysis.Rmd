@@ -1,0 +1,90 @@
+---
+title: "Joseph Kohl Report - Jkohl9770@floridapoly.edu"
+output: html_document
+date: "2026-06-06"
+---
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+sleep <- read.csv("../data/SleepStudy.csv")
+summary(sleep)
+```
+```{r}
+#Looking at average sleep distribution to ensure it looks normal
+ggplot(sleep,aes(x=AverageSleep)) +
+  geom_histogram(binwidth = .3,fill="blue",color="black") +
+  labs(
+    title="Average Sleep Distribution",
+    x="Average Sleep (hours)",
+    y="Number of Students"
+  ) + theme_classic()
+```
+
+```{r}
+#Looking at avg sleep vs gpa
+library(plotly)
+gpa_interactive <- ggplot(sleep, aes(x = AverageSleep, y = GPA)) +
+  geom_point(aes(color = factor(ClassYear)), size = 2) +
+  geom_smooth(aes(color = factor(ClassYear)), method = "loess", se = FALSE) +
+  geom_smooth(aes(color = "Overall"), method = "loess", se = FALSE, linetype = "dashed") +
+  scale_color_manual(
+    values = c("1" = "#1f77b4", "2" = "#ff7f0e", "3" = "#2ca02c", "4" = "#d62728", "Overall" = "#000000")) +
+  labs(
+    title = "Average Sleep vs GPA",
+    color = "Class Year",
+    x = "Average Sleep (Hours)",
+    y = "GPA"
+  ) + 
+  theme_minimal()
+
+ggplotly(gpa_interactive)
+```
+
+```{r}
+#Looking into effect of sleep behavior on gpa
+ggplot(sleep, aes(x=LarkOwl,y=GPA,fill=LarkOwl)) +
+  geom_boxplot() +
+  labs(
+    title="GPA vs Sleep Type",
+    x="Sleep Type: Lark (Early Bird), Owl (Night Owl), Neither",
+    y="Student GPA"
+  ) + theme_minimal()
+```
+
+```{r}
+#Scatter Plots showing Sleep Quality vs Amount affect on depression
+ggplot(sleep, aes(x=PoorSleepQuality,y=DepressionScore)) +
+  geom_point() + geom_smooth(method = "lm",se=FALSE) +
+  labs(
+    title = "Sleep Quality vs Depression Score",
+    x="Poor Sleep Quality Measurement",
+    y="Depression Score"
+  ) + theme_minimal()
+
+
+ggplot(sleep, aes(x=AverageSleep,y=DepressionScore)) +
+  geom_point() + geom_smooth(method = "lm",se=FALSE) +
+  labs(
+    title = "Average Sleep Amount vs Depression Score",
+    x="Average Sleep (Hours)",
+    y="Depression Score"
+  ) + theme_minimal()
+```
+
+```{r}
+#Drinking rates vs happiness
+
+ggplot(sleep, aes(x=Drinks,y=Happiness))+
+  geom_point(aes(color=AlcoholUse)) +
+  geom_smooth(color="Black",se=FALSE) +
+  labs(
+    Title="Drinking Rates versus Happiness",
+    color="Alcohol Use Category",
+    x="Drinks Per Week",
+    y="Happiness Score"
+  ) + theme_minimal()
+```
+
