@@ -5,13 +5,18 @@
 ## Mini-Project 2
 
 folder structure
+
 data - dataset used
+
 report - 
   KohlReport - pdf of analysis and conclusions
+  
   Kohl-Analysis - html of Rmarkdown file
+  
   Kohl-Analysis - Rmarkdown file
 
 required packages
+
 tidyverse,plotly,usmap,ggrepel,broom
 
 Run each chunk in the Rmarkdown file in order to reproduce the analysis
