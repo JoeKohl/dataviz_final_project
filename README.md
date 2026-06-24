@@ -10,22 +10,18 @@ The following is a sample of products created during the _"Data Visualization an
 
 In the `project_01/` folder you can find... _[add short description of your revised project here]_
 
-**Sample data visualization:** 
 
-_[include your favorite visualization from this project here]_
+**Here is the results of graphing Average Sleep against GPA, where most students seem to do best with 7-8 hours of sleep but the true peak is slightly different between grade levels.** 
 <img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/sleepGPA" width="70%" height="70%">
 
 
 ## Project 02
 
-In this project, I explored ... _[short description of your revised project goes here]_ Find the code and report in the `project_02/` folder.
+In this project, I explored NBA Finals Champion Teams from 1980 to 2018. Find the code and report in the `project_02/` folder.
 
-**Sample data visualization:** 
 
-_[include your favorite visualization from this project here]_
-<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/fl_higher_ed.png" width="80%" height="80%">
-
-(you can place your figures in the `figures/` folder and use the `![](path_to_picture)` option to add the pictures here)
+**This visualization is interesting because it shows how dominant large population cities and states are, despite how many more teams are in the league.** 
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/nbaMap" width="80%" height="80%">
 
 
 ## Project 03
