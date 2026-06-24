@@ -2,7 +2,7 @@ This portfolio is all about finding patterns in things from our daily lives, loc
 With visualization, density modeling, and text mining, I want to find trends in data that people deal with every day but don't 
 normally think about too hard. 
 
-## Data
+## Data and Analysis
 
 ### Part 1: Tampa International Airport (TPA) Weather Data (2022) (tpa_weather_2022.csv)
 
