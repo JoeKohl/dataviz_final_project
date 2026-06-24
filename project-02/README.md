@@ -6,7 +6,7 @@
 
 folder structure
 
-data - dataset used
+data - dataset used (NBAchampionsdata.csv)
 
 report - 
 - KohlReport - pdf of analysis and conclusions
