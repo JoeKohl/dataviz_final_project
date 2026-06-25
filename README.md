@@ -36,9 +36,7 @@ In this project, I explored TPA Weather for 2022 focusing on Temperature and Pre
 <img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/ridgeline_map" width="80%" height="80%">
 
 
-### Moving Forward
-
-_Please add here a short reflection on what you learned and what you plan to continue exploring in terms of data visualization, data storytelling, reproducible research, and/or related topics._
+## Moving Forward
 
 ### What I learned
 
