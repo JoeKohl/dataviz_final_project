@@ -8,11 +8,11 @@ The following is a sample of products created during the _"Data Visualization an
 
 ## Project 01
 
-In the `project_01/` folder you can find... _[add short description of your revised project here]_
+In the `project_01/` folder you can find and analysis primarily focused on how sleep impacts student GPA, with a small analysis on alcohol and happiness since that was also in the dataset. 
 
 
 **Here is the results of graphing Average Sleep against GPA, where most students seem to do best with 7-8 hours of sleep but the true peak is slightly different between grade levels.** 
-<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/sleepGPA" width="70%" height="70%">
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/redesign_1" width="70%" height="70%">
 
 
 ## Project 02
@@ -26,12 +26,11 @@ In this project, I explored NBA Finals Champion Teams from 1980 to 2018. Find th
 
 ## Project 03
 
-In this project, I explored ... _[short description of the data visualizations you for this part of the project produced goes here]_
+In this project, I explored TPA Weather for 2022 focusing on Temperature and Precipitation, along with the 2015 Billboard top 100. It can be found in the  the `project_03/` folder.
 
-**Sample data visualization:** 
 
-_[include your favorite visualization from this project here]_
-<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/concrete_density.png" width="80%" height="80%">
+**I really like this ridgeline map of the Tampa shows the average temperature in a more unique way than just simple bar charts or scatterplots**
+<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/ridgeline_map" width="80%" height="80%">
 
 
 ### Moving Forward
