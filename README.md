@@ -23,7 +23,7 @@ In this project, I explored NBA Finals Champion Teams from 1980 to 2018. Find th
 
 **This visualization is interesting because it shows how dominant large population cities and states are, despite how many more teams are in the league.** 
 
-<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/nbaMap" width="80%" height="80%">
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/nba_Map" width="80%" height="80%">
 
 
 ## Project 03
