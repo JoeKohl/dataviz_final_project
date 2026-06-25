@@ -3,6 +3,10 @@ data - contains the csv used in the project (SleepStudy.csv)
 report - contains the rmd and html files of the R file used to create the graphs
 also contains the report analysis in a PDF file named Kohl_Report_Analysis
 
+analysis - 
+- analysis.Rmd : R markdown file of the charts
+- analysis.html : HTML output of the R markdown file
+
 this analysis uses the tidyverse and plotly packages, with those installed run all of the chunks in order
 to get see the graphs. 
 
