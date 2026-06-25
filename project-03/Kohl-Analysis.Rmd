@@ -150,7 +150,7 @@ length_plot <- ggplot(song_lengths, aes(x = Rank, y = total_words)) +
                               "<br>Rank:", Rank, 
                               "<br>Total Words:", total_words)), 
              size = 3.5, alpha = 0.85, shape = 21, color = "white", stroke = 0.5) +
-  geom_smooth(method = "lm", color = "#D55E00", se = FALSE, linetype = "solid", linewidth = 1.2) +
+  geom_smooth(method = "lm", se = FALSE, linetype = "solid", linewidth = 1.2) +
   scale_fill_viridis_c(option = "mako", name = "Word Count") +
   labs(
     title = "Billboard Hit Rank vs. Song Lyric Length",
