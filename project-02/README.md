@@ -37,7 +37,7 @@ offensive rebound is almost always another scoring opportunity, whereas a defens
 turn into a scoring chance. 
 
 I altered all of the graphs to make them more color-blind friendly palletes, which resulted in cleaner easier to read graphs.
-I chose to redesign my regression chart as I realized it would be near impossible to decode for people who didnt know statistics or regression numbers.
+I chose to redesign my regression chart as I realized it would be near impossible to decode for people who didnt know statistics or regression numbers, it also had too many numbers that didn't need to be included.
 Now it is color coded to show what variables are and aren't signifigant and those that are, along with their imact on scoring. 
 
 Old Chart: 
