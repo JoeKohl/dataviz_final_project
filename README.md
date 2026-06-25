@@ -31,7 +31,7 @@ In this project, I explored NBA Finals Champion Teams from 1980 to 2018. Find th
 In this project, I explored TPA Weather for 2022 focusing on Temperature and Precipitation, along with the 2015 Billboard top 100. It can be found in the  the `project_03/` folder.
 
 
-**I really like this ridgeline map of the Tampa shows the average temperature in a more unique way than just simple bar charts or scatterplots**
+**This ridgeline map of the Tampa shows the average temperature in a more unique way than just a simple bar chart or scatterplot**
 
 <img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/ridgeline_map" width="80%" height="80%">
 
