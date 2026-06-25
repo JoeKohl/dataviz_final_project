@@ -16,7 +16,7 @@ The R Markdown script generates the following graphs:
 After reviewing the charts and what I wanted to show I decided to redesign my Average Sleep vs GPA chart, as this was the most important chartfor my analysis and dataset overall. I changed the color pallete to make it color-blind friendly, redesigned it and added an overall trend line, and made it interactable to make it easy to single out each class year's data or just the overall. 
 
 Here is the old chart:
-<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/oldChart_1" width="70%" height="70%">
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/oldChart_1.png" width="70%" height="70%">
 
 Here is the updated chart:
-<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/redesign_1" width="70%" height="70%">
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/redesign_1.png" width="70%" height="70%">
