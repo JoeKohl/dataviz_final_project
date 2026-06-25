@@ -39,3 +39,18 @@ In this project, I explored TPA Weather for 2022 focusing on Temperature and Pre
 ### Moving Forward
 
 _Please add here a short reflection on what you learned and what you plan to continue exploring in terms of data visualization, data storytelling, reproducible research, and/or related topics._
+
+### What I learned
+
+- Data Design and Clarity
+   Through mapping sleep metrics, academic performance, and NBA championship history, I learned core design principles—such as markdown themes (theme_minimal) and using color to distinguish groups without adding visual clutter. I also learned the importance of layout adjustments, like the ggrepel package to fix overlapping text labels, and adjusting legend dimensions to keep charts fully readable.
+- Analytical Integrity and Intuition
+   A major takeaway from these explorations was dealing with real-world data limitations. Missing documentation (such as assuming alcohol units were "per week") made it harder to work with the data and be confient in my conclusions. I also dealt with data cleaning by fixing inconsistencies and typos (like "Warriorrs" or inconsistent quotation formats).
+- Workflow Efficiency and Automation
+   Project 2 showed how useful packages and automation can be. Instead of manually looking up geographic coordinates for the NBA teams, I used AI to automate finding and listing the coordinates. 
+
+  
+### Areas to Explore
+  
+   Advanced Software: Building on what I learned from using interactive charts, exploring programs like PowerBI, or Tableau could help build fully dynamic dashboards where users can slice data themselves.
+   Longer Term Studies: Tracking historical data and patterns would be interesting, as well as result in stonger conclusions since there is more data to support them. Taking larger amounts of data would also likely provide new opportunities to learn new skills and grow. 
