@@ -13,7 +13,7 @@ The R Markdown script generates the following graphs:
 - Mental Health Impact: Two regression scatter plots mapping how both sleep quality and sleep duration affect overall depression scores.
 - Lifestyle Factors: A scatter plot exploring the relationship between weekly drinking rates, categorical alcohol use, and happiness.
 
-After reviewing the charts and what I wanted to show I decided to redesign my Average Sleep vs GPA chart, as this was the most important chartfor my analysis and dataset overall. I changed the color pallete to make it color-blind friendly, redesigned it and added an overall trend line, and made it interactable to make it easy to single out each class year's data or just the overall. 
+After reviewing the charts and what I wanted to show I decided to redesign my Average Sleep vs GPA chart, as this was the most important chartfor my analysis and dataset overall. I changed the color pallete to make it color-blind friendly, redesigned it and added an overall trend line, and made it interactable to make it easy to single out each class year's data or just the overall.
 
 Here is the old chart:
 
