@@ -37,3 +37,5 @@ and many years of data.
 - Kohl-Analysis.Rmd - markdown file for the graphing and analysis
   
 - Kohl-Analysis.html - HTML output of the markdown file for easy viewing
+
+- tpa_weather_2022.csv - Data used for analysis
