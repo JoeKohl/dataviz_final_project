@@ -33,7 +33,8 @@ seriesgames <- ggplot(
   geom_line(alpha = 0.8, linewidth = 0.2) +
   geom_point(aes(shape = Result), size = 2) +
   scale_x_continuous(breaks = 1:7) +
-  scale_shape_manual(values = c("Win" = 16, "Loss" = 4)) #dots for wins x for loss + 
+  scale_shape_manual(values = c("Win" = 16, "Loss" = 4)) +
+  scale_color_viridis_d(option = "turbo") +
   labs(
     title = "NBA Finals Games (1980–2018)",
     x = "Game Number",
@@ -46,6 +47,10 @@ seriesgames <- ggplot(
 interactive_plot <- ggplotly(seriesgames)
 interactive_plot
 ```
+
+This chart tracks the game-by-game scoring output (PTS) of championship teams across the span of a best-of-seven series.
+
+It visualizes the volatile nature of Finals games, mapping individual game performance trends and illustrating how scoring averages swing between winning and losing efforts as a series progresses.
 
 ```{r}
 library(usmap)
@@ -73,6 +78,7 @@ map_plot <- plot_usmap("states") +
     data = map_data_transformed,
     aes(size = Championships, color = Team)) +
   scale_size_continuous(range = c(2,14)) +
+  scale_color_viridis_d(option = "turbo") +
   geom_label_repel(
     data=map_data_transformed,
     stat="sf_coordinates",
@@ -92,9 +98,13 @@ map_plot <- plot_usmap("states") +
 map_plot
 ```
 
+This map plots the physical city coordinates of every NBA franchise that won at least one championship between 1980 and 2018, with bubble sizes representing the total number of titles won.
+
+It highlights the heavy geographic concentration of NBA dominance. Rather than parity across the league, a small cluster of California and Texas franchises historically win the most championships.
+
 ```{r}
 library(broom)
-model <- lm(PTS ~ AST + ORB +TRB + TOV + STL, data = nbafinalsnew)
+model <- lm(PTS ~ AST + ORB + TRB + TOV + STL, data = nbafinalsnew)
 model_result <- tidy(model, conf.int = TRUE) %>%
   filter(term != "(Intercept)") %>% 
   mutate(
@@ -105,32 +115,52 @@ model_result <- tidy(model, conf.int = TRUE) %>%
                   TOV = "Turnovers",
                   STL = "Steals"))
 
-plot_model <- ggplot(model_result, aes(x = estimate, y = reorder(term, estimate))) +
-  geom_vline(xintercept = 0, linetype = "dashed") +
+result_new <- model_result %>%
+  mutate(
+    Is_Significant = ifelse(conf.low > 0 | conf.high < 0, "Significant", "Not Significant"),
+    Label = sprintf("%+.2f pts", estimate)
+  )
+
+model_new <- ggplot(result_new, aes(x = estimate, y = reorder(term, estimate), color = Is_Significant)) +
+  geom_vline(xintercept = 0, linetype = "dotted", linewidth = 0.8) +
   geom_errorbarh(
     aes(xmin = conf.low, xmax = conf.high), 
-    height = 0.2, linewidth = 1.2) +
+    height = 0.15, linewidth = 1.0) +
   geom_point(size = 4) +
   geom_text(
-    aes(label = sprintf("%.2f points\n[%.2f to %.2f]", estimate, conf.low, conf.high)), 
-    vjust = -0.5) +
-  labs(
-    title = "Predictors of Points Scored",
-    subtitle = "Coefficients with 95% Confidence Intervals",
-    x = "Effect on Points Scored",
-    y = "Variable"
+    aes(label = Label), 
+    vjust = -0.8, 
+    hjust = 0.5,
+    fontface = "bold",
+    size = 3.5,
+    show.legend = FALSE
   ) +
-  coord_cartesian(clip = "off")+
+  scale_color_manual(
+    values = c("Significant" = "#0072B2", "Not Significant" = "black")
+  ) +
+  labs(
+    title = "Predictors of Points Scored in NBA Finals Games",
+    subtitle = "Regression coefficients with 95% confidence intervals",
+    x = "Change in Points Scored per Unit Increase",
+    y = NULL,
+    color = "Statistical Significance"
+  ) +
+  scale_x_continuous(expand = expansion(mult = c(0.15, 0.15))) +
   theme_minimal()
 
-print(plot_model)
+print(model_new)
 ```
+
+This chart displays the results of a multiple linear regression model, isolating how individual box score metrics (Assists, Rebounds, Turnovers, and Steals) impact a team's total points scored while holding other variables constant.
+
+It mathematically identifies the most influential factors for scoring. Assists and Steals have a highly significant positive relationship with scoring, whereas Turnovers act as a severe drag on overall offensive production.
 
 ```{r}
 turnoversteal <- ggplot(nbafinalsnew, aes(x = TOV, y = STL, color = Result)) +
-  geom_jitter(aes(shape = Location), size = 2.5, alpha = 0.8) +
-  geom_smooth(method = "lm", se = FALSE) +
-  scale_color_manual(values = c("Win" = "#2acc31", "Loss" = "red")) +
+  geom_jitter(aes(shape = Location), size = 2.5, alpha = 0.7, width = 0.2, height = 0.2) +
+  geom_smooth(method = "lm", se = FALSE, linewidth = 1.2) +
+  # Fixed: Replaced pure red/green palette with a colorblind-friendly alternative (ColorBrewer 'Set1')
+  scale_color_brewer(palette = "Set1") + 
   labs(
     title = "Turnovers vs Steals on Game Outcome",
     x = "Turnovers",
@@ -146,3 +176,15 @@ turnoversteal <- ggplot(nbafinalsnew, aes(x = TOV, y = STL, color = Result)) +
 
 print(turnoversteal)
 ```
+
+This scatterplot examines the relationship between offensive mistakes (Turnovers) and defensive disruptions (Steals), grouped by game outcome (Win vs. Loss) and location (Home vs. Away).
+
+Winning outcomes are heavily clustered in the high steals, low turnovers quadrant, showing that defensive activity combined smart offense is highly correlated with winning Finals games, regardless of home-court advantage.
+
+## Conclusion
+
+NBA history is defined by highly concentrated areas of dominance. The vast majority of championships over this nearly 40-year span belong to just four franchises (Lakers, Bulls, Celtics, Spurs). Winning a championship is rarely a random occurrence, it belongs to deeply established organizations.
+
+Scoring in the NBA Finals is heavily reliant on ball movement and second-chance opportunities. Assists are the single strongest positive predictor of points scored, meaning that team playmaking is far more reliable for generating points than isolated individual play. Similarly, securing offensive rebounds grants extra possessions that directly translate to higher scores.
+
+The margin between a championship win and a loss comes down to possession efficiency. Teams that protect the ball (minimizing Turnovers) and disrupt their opponent's passing (maximizing Steals) win games. A high-turnover game is a fast track to lose a Finals game, showing that defense and ball security are just as critical to scoring as pure shooting talent.
