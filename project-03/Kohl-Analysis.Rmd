@@ -82,15 +82,20 @@ weather_tpa %>%
   filter(precipitation >= 0) %>%
   mutate(month = factor(month, levels = 1:12, labels = month.abb)) %>%
   group_by(month) %>%
-  summarise(total_rain = sum(precipitation)) %>%
+  summarise(total_rain = sum(precipitation), .groups = "drop") %>%
   ggplot(aes(x = month, y = total_rain, fill = total_rain)) +
-  geom_col() +
-  scale_fill_viridis_b(option = "mako") +
+  geom_col(show.legend = FALSE) + 
+  geom_text(aes(label = sprintf("%.2f\"", total_rain)), 
+            vjust = -0.5, 
+            size = 3.5, 
+            fontface = "bold") +
+  scale_fill_viridis_c(option = "mako", direction = -1) + 
+  scale_y_continuous(expand = expansion(mult = c(0, 0.1))) +
   labs(
     title = "Total Monthly Precipitation at TPA (2022)",
     x = "Month", 
-    y = "Precipitation (Inches)",
-    fill = "Inches") +
+    y = "Precipitation (Inches)"
+  ) +
   theme_minimal()
 ```
 
@@ -109,22 +114,24 @@ The data reveals a climate profile for TPA in 2022. The winter and surrounding m
 url <- ("https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/data/BB_top100_2015.csv")
 bb100 <- read_csv(url)
 
-
-wordchart <- bb100 %>%
+word_data <- bb100 %>%
   unnest_tokens(word, Lyrics) %>%
   anti_join(stop_words, by = "word") %>%
   count(word, sort = TRUE) %>%
   slice_max(n, n = 25) %>% 
-  mutate(word = reorder(word, n)) %>%
-  
-  # Plot
-  ggplot(aes(x = n, y = word)) +
-  geom_col() +
-  labs(title = "Top 25 Most Common Words in Billboard Hits",
-       x = "Word Count") +
+  mutate(word = reorder(word, n))
+
+wordchart <- ggplot(word_data, aes(x = n, y = word, fill = n)) +
+  geom_col(show.legend = FALSE) +
+  scale_fill_viridis_c(option = "viridis") +
+  labs(
+    title = "Top 25 Most Common Words in Billboard Hits",
+    x = "Word Count",
+    y = "Word"
+  ) +
   theme_minimal()
 
-ggplotly(wordchart)
+ggplotly(wordchart, tooltip = "x")
 ```
 
 
@@ -137,14 +144,14 @@ song_lengths <- bb100 %>%
   summarise(total_words = n(), .groups = "drop")
 
 length_plot <- ggplot(song_lengths, aes(x = Rank, y = total_words)) + 
-  geom_point(aes(color = total_words, 
+  geom_point(aes(fill = total_words, 
                  text = paste("Song:", Song, 
                               "<br>Artist:", Artist, 
                               "<br>Rank:", Rank, 
                               "<br>Total Words:", total_words)), 
-             size = 3, alpha = 0.7) +
-  geom_smooth(method = "lm", color = "black", se = FALSE, linetype = "dashed") +
-  scale_color_viridis_c(option = "plasma", guide = "none") +
+             size = 3.5, alpha = 0.85, shape = 21, color = "white", stroke = 0.5) +
+  geom_smooth(method = "lm", color = "#D55E00", se = FALSE, linetype = "solid", linewidth = 1.2) +
+  scale_fill_viridis_c(option = "mako", name = "Word Count") +
   labs(
     title = "Billboard Hit Rank vs. Song Lyric Length",
     x = "Billboard Rank (1 is #1 Hit)",
@@ -156,7 +163,7 @@ ggplotly(length_plot, tooltip = "text")
 ```
 
 
-Here we have a scatter plot mapping a song's chart rank against its total lyric word count. The dashed trend line shows a very slight negative slope, suggesting that higher-ranking hits (closer to rank 1) lean toward marginally higher word counts, though the massive vertical spread and prominent outliers across all ranks indicate that lyric length is not a strong predictor of chart performance.
+Here we have a scatter plot mapping a song's chart rank against its total lyric word count. The dashed trend line shows a very slight negative slope, suggesting that higher-ranking hits (closer to rank 1) lean toward slightly higher word counts, though the massive spread and outliers across all ranks indicate that lyric length is not a strong predictor of chart performance.
 
 ## Conclusion
 
