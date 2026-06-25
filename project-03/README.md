@@ -39,3 +39,15 @@ and many years of data.
 - Kohl-Analysis.html - HTML output of the markdown file for easy viewing
 
 - tpa_weather_2022.csv - Data used for analysis
+
+## Accessibility and Redesign
+
+The charts in part 2 were revised to include color-blind friendly coloring, along with both being interactable allowing for the data to be read without needing the colors. I redesigned the chart for part 1 e. as the graph didn't look as good as I wanted, and didn't have annotations for the data. After the redesign the graph is much better looking along with being easier to find relevant data numbers because of the annotations. 
+
+Old Chart: 
+
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/oldChart_3.png" width="70%" height="70%">
+
+New Chart: 
+
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/redesign_3.png" width="70%" height="70%">
