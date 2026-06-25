@@ -33,7 +33,7 @@ In this project, I explored TPA Weather for 2022 focusing on Temperature and Pre
 
 **I really like this ridgeline map of the Tampa shows the average temperature in a more unique way than just simple bar charts or scatterplots**
 
-<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/ridgeline_map.png" width="80%" height="80%">
+<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/ridgeline_map" width="80%" height="80%">
 
 
 ### Moving Forward
