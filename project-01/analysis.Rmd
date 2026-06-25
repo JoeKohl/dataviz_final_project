@@ -23,6 +23,10 @@ ggplot(sleep,aes(x=AverageSleep)) +
   ) + theme_classic()
 ```
 
+This chart displays how many hours of sleep students get on average.
+
+The data is normally distributed (bell-shaped) and peaks around 7 to 8 hours of sleep per night. Very few students average fewer than 5 hours or more than 10 hours of sleep.
+
 ```{r}
 #Looking at avg sleep vs gpa
 library(plotly)
@@ -31,7 +35,8 @@ gpa_interactive <- ggplot(sleep, aes(x = AverageSleep, y = GPA)) +
   geom_smooth(aes(color = factor(ClassYear)), method = "loess", se = FALSE) +
   geom_smooth(aes(color = "Overall"), method = "loess", se = FALSE, linetype = "dashed") +
   scale_color_manual(
-    values = c("1" = "#1f77b4", "2" = "#ff7f0e", "3" = "#2ca02c", "4" = "#d62728", "Overall" = "#000000")) +
+    values = c("1" = "#E69F00", "2" = "#56B4E9", "3" = "#009E73", "4" = "#D55E00", "Overall" = "#000000")
+  ) +
   labs(
     title = "Average Sleep vs GPA",
     color = "Class Year",
@@ -43,6 +48,10 @@ gpa_interactive <- ggplot(sleep, aes(x = AverageSleep, y = GPA)) +
 ggplotly(gpa_interactive)
 ```
 
+This plot examines whether sleep duration correlates with cumulative GPA, with students grouped by their class year (Freshman through Senior).
+
+There is a general upward trend approaching 7-8 hours, but after that more sleep seems to become a negative rather than a positive.
+
 ```{r}
 #Looking into effect of sleep behavior on gpa
 ggplot(sleep, aes(x=LarkOwl,y=GPA,fill=LarkOwl)) +
@@ -53,6 +62,10 @@ ggplot(sleep, aes(x=LarkOwl,y=GPA,fill=LarkOwl)) +
     y="Student GPA"
   ) + theme_minimal()
 ```
+
+This chart compares the GPAs of students based on their self-identified sleep profile: Larks (early birds), Owls (night owls), or "Neither".
+
+Students who identify as "Larks" have a slightly higher median GPA than "Owls." Students who identify as "Neither" sit right in the middle, indicating that waking up early is a slight advantage but not entirely definitive as seen by the outliers in Lark.
 
 ```{r}
 #Scatter Plots showing Sleep Quality vs Amount affect on depression
@@ -74,6 +87,12 @@ ggplot(sleep, aes(x=AverageSleep,y=DepressionScore)) +
   ) + theme_minimal()
 ```
 
+These two  plots evaluate how sleep relates to mental health.
+
+Sleep Quality: There is a clear positive correlation; as poor sleep quality measurements increase, depression scores also rise.
+
+Sleep Amount: There is a little to no correlation between sleep time and depression, indicating that quality sleep is far more important than total time.
+
 ```{r}
 #Drinking rates vs happiness
 
@@ -88,3 +107,18 @@ ggplot(sleep, aes(x=Drinks,y=Happiness))+
   ) + theme_minimal()
 ```
 
+This plot looks at the relationship between weekly alcohol consumption (number of drinks) and self-reported happiness scores.
+
+Happiness scores experience a very slight peak at moderate levels of alcohol consumption around 7 drinks per week. However, once consumption exceeds roughly 10 drinks per week, happiness levels drop off sharply.
+
+## Conclusion
+
+When looking at the dataset as a whole, a clear picture emerges regarding the relationship between student lifestyle choices, academic success, and mental well-being:
+
+Both sleep duration (how long you sleep) and sleep timing (when you sleep) play a role in academic success. Students who get more sleep and those who align with an early-bird ("Lark") schedule consistently achieve higher GPAs.
+
+The data strongly supports the idea that sleep deprivation and poor sleep quality are risk factors for depressive symptoms. Maximizing quality sleep hours is correlated with lower depression scores.
+
+Lifestyle habits like drinking show non-linear relationships with happiness. While light-to-moderate social drinking does not show a negative relationship with happiness, high consumption is strongly linked to lower self-reported happiness.
+
+For a student aiming to maximize both their GPA and mental well-being, the optimal lifestyle profile involves maintaining an early sleep schedule, averaging 7–9 hours of high-quality sleep per night, and keeping weekly alcohol consumption low to moderate.
