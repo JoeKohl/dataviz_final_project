@@ -12,7 +12,7 @@ In the `project_01/` folder you can find and analysis primarily focused on how s
 
 
 **Here is the results of graphing Average Sleep against GPA, where most students seem to do best with 7-8 hours of sleep but the true peak is slightly different between grade levels.** 
-<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/redesign_1" width="70%" height="70%">
+<img src="https://raw.githubusercontent.com/JoeKohl/dataviz_final_project/main/figures/redesign_1.png" width="70%" height="70%">
 
 
 ## Project 02
@@ -30,7 +30,7 @@ In this project, I explored TPA Weather for 2022 focusing on Temperature and Pre
 
 
 **I really like this ridgeline map of the Tampa shows the average temperature in a more unique way than just simple bar charts or scatterplots**
-<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/ridgeline_map" width="80%" height="80%">
+<img src="https://raw.githubusercontent.com/aalhamadani/dataviz_final_project/main/figures/ridgeline_map.png" width="80%" height="80%">
 
 
 ### Moving Forward
